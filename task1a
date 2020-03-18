@@ -22,10 +22,9 @@ def split(DNA,bindingSite,splitIndex,enzyme):
             end_insert = datetime.now()
             # total time for each insert
             split.total_insert_time += (end_insert - start_insert).total_seconds()
-            count = len(DNA[:index]) + len(new_enzyme)
+            count = len(DNA[:index]) + len(enzyme)
 
-            if splitIndex == 0:
-                count += len(enzyme)
+
         else:
 
             return DNA
@@ -78,7 +77,6 @@ def task1a_timing():
     print("Total loading time %s" % var_time)
     print("Total finding time %s" % split.total_finding_time)
     print("Total insert time %s" % split.total_insert_time)
-    print(dnaStrand)
 
 if test_timing is not True:
     task1a()
