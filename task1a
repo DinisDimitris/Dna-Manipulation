@@ -1,0 +1,86 @@
+from datetime import datetime
+# SET THIS TO FALSE FOR TASK1A
+test_timing = True
+def split(DNA,bindingSite,splitIndex,enzyme):
+    fhalf = bindingSite[:splitIndex]
+    shalf = bindingSite[splitIndex:]
+    new_enzyme = fhalf + enzyme + shalf
+    count = 0
+    split.total_finding_time = 0.0
+    split.total_insert_time = 0.0
+    start_find = datetime.now()
+    while count <= len(DNA):
+        # every search is made from the new enzyme that has been inserted
+        if DNA.find(bindingSite,count) != -1 :
+            end_find = datetime.now()
+            # total time for finding each binding site
+            split.total_finding_time += (end_find - start_find).total_seconds()
+            start_insert = datetime.now()
+            index = DNA.find(bindingSite,count)
+            n_index = index + splitIndex
+            DNA = DNA[:n_index] + enzyme + DNA[n_index:]
+            end_insert = datetime.now()
+            # total time for each insert
+            split.total_insert_time += (end_insert - start_insert).total_seconds()
+            count = len(DNA[:index]) + len(new_enzyme)
+
+            if splitIndex == 0:
+                count += len(enzyme)
+        else:
+
+            return DNA
+
+    return DNA
+# inputs
+def task1a():
+    m = input().split()
+    dnaLength = int(m[0])
+    restrictionEnzymes = int(m[1])
+    dnaStrand = input().split()
+    dnaStrand = dnaStrand[0][:dnaLength]
+    for i in range(restrictionEnzymes):
+        splicingOperations = input().split()
+        bindingSiteLength = splicingOperations[0]
+        spliceLength = splicingOperations[1]
+        bindingSite = splicingOperations[2][:int(bindingSiteLength)]
+        splitIndex = splicingOperations[3]
+        enzyme = splicingOperations[4]
+        dnaStrand = split(dnaStrand,bindingSite,int(splitIndex),enzyme)
+        print(dnaStrand)
+
+def task1a_timing():
+    load_vars = datetime.now()
+    data = []
+    var_time = 0.0
+    with open("timing_test_data.txt", "r") as f_in:
+        for line in f_in:
+            line = line.replace('\n','')
+            data.append(line.split(' '))
+
+
+    dnaLength = int(data[0][0])
+    restrictionEnzymes = int(data[0][1])
+    dnaStrand = data[1][0]
+    for i in range(2,restrictionEnzymes + 2):
+
+        bindingSiteLength = data[i][0]
+        spliceLength = data[i][1]
+        bindingSite = data[i][2]
+        splitIndex = data[i][3]
+        enzyme = data[i][4]
+        end_load_vars = datetime.now()
+        var_time += (end_load_vars - load_vars).total_seconds()
+
+
+        dnaStrand = split(dnaStrand,bindingSite,int(splitIndex),enzyme)
+
+        dnaStrand = dnaStrand.replace('\n', '')
+    print("Total loading time %s" % var_time)
+    print("Total finding time %s" % split.total_finding_time)
+    print("Total insert time %s" % split.total_insert_time)
+    print(dnaStrand)
+
+if test_timing is not True:
+    task1a()
+else:
+    task1a_timing()
