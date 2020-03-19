@@ -1,5 +1,5 @@
 from datetime import datetime
-# SET THIS TO FALSE FOR TASK1A
+# SET THIS TO TRUE FOR TEST
 test_timing = True
 def split(DNA,bindingSite,splitIndex,enzyme):
     fhalf = bindingSite[:splitIndex]

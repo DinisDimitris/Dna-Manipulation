@@ -1,5 +1,5 @@
 from datetime import datetime
-# SET THIS TO FALSE FOR TASK1Bi
+# SET THIS TO TRUE FOR TEST
 test_timing = True
 class Node(object):
 

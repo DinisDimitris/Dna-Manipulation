@@ -25,10 +25,10 @@ def find_restriction_enzyme(dna_seq, l, find_after, num_enz):
 with open("timing_test_data.txt", "w") as f_out:
     for i in range(1):
 
-        dna_length = 10000000
-        enzyme_length = 10
+        dna_length = 1000000
+        enzyme_length = 1000
         strand_length = 10
-        number_of_enzymes = 5
+        number_of_enzymes = 1
 
         dna = generate_dna_sequence(dna_length)
         f_out.write("%d %d\n%s\n" % (dna_length, number_of_enzymes, dna))

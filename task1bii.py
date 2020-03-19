@@ -1,5 +1,5 @@
 from datetime import datetime
-# SET THIS TO FALSE FOR TASK1Bi
+# SET THIS TO TRUE FOR TEST
 test_timing = True
 class Node(object):
 
@@ -69,31 +69,40 @@ class LinkedList(object):
         tail_pointer = node
         # hash window from head_pointer to tail_pointer
         for steps in range(bindingSiteLength- 1):
+            # set the tail
             if tail_pointer is not None:
                 tail_pointer = tail_pointer.next_node
+        # while its not reached the end of our array
         while tail_pointer is not None:
             check_hash = head_pointer
             hash_sum = 0
+            # saving some memory by only calculating hash if pointer matches with binding
+            if head_pointer.get_hash() == bindingSite.root.get_hash():
+                for steps in range(bindingSiteLength):
+                    hash_sum += 4**steps * check_hash.get_hash()
+                    if check_hash.next_node is not None:
+                        check_hash = check_hash.next_node
 
-            for steps in range(bindingSiteLength ):
-                hash_sum += 4**steps * check_hash.get_hash()
-                if check_hash.next_node is not None:
-                    check_hash = check_hash.next_node
+                if hash_sum == binding_hash_val:
+                    if head_pointer == self.root:
+                        return store_head_pointer
+                    else:
+                        return store_node_before_head
 
-            if hash_sum == binding_hash_val:
-                if head_pointer == self.root:
-                    return store_head_pointer
                 else:
-                    return store_node_before_head
-
+                    store_node_before_head = head_pointer
+                    head_pointer = head_pointer.next_node
+                    store_head_pointer = head_pointer
+                    if tail_pointer is not None:
+                        tail_pointer = tail_pointer.next_node
+                    else:
+                        return None
             else:
                 store_node_before_head = head_pointer
                 head_pointer = head_pointer.next_node
                 store_head_pointer = head_pointer
                 if tail_pointer is not None:
                     tail_pointer = tail_pointer.next_node
-                else:
-                    return None
         return None
 
 
@@ -142,15 +151,14 @@ if __name__ == "__main__":
         end_var_loading = datetime.now()
         if test_timing:
             total_loading_time +=(end_var_loading - start_var_loading).total_seconds()
+            # each iter , new ennzyme is inserted
             data.remove(n)
 
         # binding head search
         start_search = datetime.now()
         bindingHead = OrigDna.search(OrigDna.root, binding_site_hash_val)
 
-
         while bindingHead is not None:
-            print(bindingHead.value)
             if test_timing:
                 found_match = datetime.now()
                 total_finding_time += (found_match - start_search).total_seconds()
@@ -165,12 +173,15 @@ if __name__ == "__main__":
             # if our binding head is the root node then it means we have to create a new node at the beginning of the linked list
             if bindingHead == OrigDna.root and bindingHead.value == bindingSite.root.value:
                 start_insert = datetime.now()
+                # store head
                 Head_of_DNA = OrigDna.root
                 enzyme_to_be_inserted = new_Enzyme.root
                 for steps in range(new_Enzyme.size - 1):
+                    # move the enzyme pointer to its tail
                     enzyme_to_be_inserted = enzyme_to_be_inserted.next_node
-
+                # next node becomes its head
                 enzyme_to_be_inserted.next_node = Head_of_DNA
+                # resume search from head
                 After_enzyme = Head_of_DNA
                 # new head of DNA is the root enzyme
                 OrigDna.root = new_Enzyme.root
@@ -180,7 +191,7 @@ if __name__ == "__main__":
                     total_insert_time += (end_insert - start_insert).total_seconds()
                     start_search = datetime.now()
                 bindingHead = OrigDna.search(After_enzyme.next_node, binding_site_hash_val)
-                # if splitindex is bigger than 0 we have to move it from our head
+                # here we have to move it from the head position ( before the actual DNA)
                 if splitIndex > 0:
                     #timings
                     if test_timing:
@@ -212,7 +223,7 @@ if __name__ == "__main__":
                     else:
                         bindingHead = OrigDna.search(After_enzyme.next_node, binding_site_hash_val)
 
-                # else we insert it at the specific index
+            # else we insert it at the specific index
             else:
                 if test_timing:
                     start_insert = datetime.now()
