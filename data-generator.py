@@ -26,8 +26,8 @@ with open("timing_test_data.txt", "w") as f_out:
     for i in range(1):
 
         dna_length = 1000000
-        enzyme_length = 1000
-        strand_length = 10
+        enzyme_length = 10000
+        strand_length = 10000
         number_of_enzymes = 1
 
         dna = generate_dna_sequence(dna_length)

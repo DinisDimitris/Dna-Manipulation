@@ -1,6 +1,6 @@
 from datetime import datetime
 # SET THIS TO TRUE FOR TEST
-test_timing = True
+test_timing = False
 class Node(object):
 
     def __init__(self, val, next_node=None):
