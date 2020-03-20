@@ -1,0 +1,10 @@
+function longest_dna_seq(strand1,strand2,strand_length):
+    for length in range(strand, 0, -1):
+        for i in range(strand1.lentgh - length):
+            for j in range(strand2.length - length):
+                if strand1[i:i+length] == strand2[j:j+length]:
+                    return strand1[i:i+length]
+				end if
+			end for
+		end for
+	end for

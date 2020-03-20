@@ -1,0 +1,8 @@
+def longest_dna_seq(strand1,strand2,strand):
+    for length in range(strand, 0, -1):
+        for i in range(len(strand1) - length):
+            for j in range(len(strand2) - length + 1):
+                if strand1[i:i+length] == strand2[j:j+length]:
+                    return strand1[i:i+length]
+
+print(longest_dna_seq("XXAAACTT","XXTTAAAC",6))
