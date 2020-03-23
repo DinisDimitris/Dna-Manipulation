@@ -1,3 +1,7 @@
+# when i + length == len(strand1) and j + length == len(strand2)
+# reduce length by 1 and reset i and j to 0
+# When j + length = len(strand2) reset j to 0 and add 1 to i
+# Our first match will result in the longest common string
 def longest_dna_seq(strand1,strand2,strand):
     for length in range(strand, 0, -1):
         for i in range(len(strand1) - length):
@@ -5,4 +9,22 @@ def longest_dna_seq(strand1,strand2,strand):
                 if strand1[i:i+length] == strand2[j:j+length]:
                     return strand1[i:i+length]
 
-print(longest_dna_seq("XXAAACTT","XXTTAAAC",6))
+# same proccess impl
+def rec_longest_dna_seq(strand1,strand2,length,i,j):
+    if strand1[i:i + length] == strand2[j:j + length]:
+        return strand1[i:i + length]
+    else:
+        if i + length == len(strand1) and j + length == len(strand2):
+            length = length - 1
+            return rec_longest_dna_seq(strand1, strand2,length,0,0)
+        if len(strand2[:j + length - 1]) != len(strand2):
+            j += 1
+            return rec_longest_dna_seq(strand1, strand2,length,i,j)
+        elif len(strand2[:j + length - 1]) == len(strand2):
+            i += 1
+            j = 0
+            return rec_longest_dna_seq(strand1, strand2, length, i, j)
+strand1 = "AAAACCCTTGTWGASGATWATSSATSA"
+strand2 = "CCAAAACCTATASGASGGASGAGTWTA"
+strand_length = 27
+print(rec_longest_dna_seq(strand1,strand2,strand_length,0,0))
